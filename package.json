@@ -22,5 +22,15 @@
   "bugs": {
     "url": "https://github.com/frank-mendez/devtether/issues"
   },
-  "homepage": "https://github.com/frank-mendez/devtether#readme"
+  "homepage": "https://github.com/frank-mendez/devtether#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.2.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.1",
+    "request": "^2.88.2",
+    "uuid": "^3.4.0"
+  }
 }
