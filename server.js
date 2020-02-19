@@ -7,14 +7,17 @@ const app = express();
 //Connect Database
 connectDB();
 
+app.get('/', (req, res) => res.send('API Running Test to postman'));
+
 // Init Middleware
 app.use(express.json({ extended: false }));
 
 // Define routes
-// app.use('/api/users', require('./routes/api/users'));
-// app.use('/api/auth', require('./routes/api/auth'));
-// app.use('/api/profile', require('./routes/api/profile'));
-// app.use('/api/posts', require('./routes/api/posts'));
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/profile', require('./routes/api/profile'));
+app.use('/api/network', require('./routes/api/network'));
+app.use('/api/posts', require('./routes/api/posts'));
 
 // Serve static assets in production
 // if (process.env.NODE_ENV === 'production') {
