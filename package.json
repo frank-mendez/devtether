@@ -2,9 +2,10 @@
   "name": "devtether",
   "version": "1.0.0",
   "description": "Social Network for Developers. Online interaction for future collaborations and finding new developer friends",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server",
+    "server": "nodemon server"
   },
   "repository": {
     "type": "git",
@@ -25,14 +26,16 @@
   "homepage": "https://github.com/frank-mendez/devtether#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "concurrently": "^5.1.0",
     "config": "^3.2.5",
     "express": "^4.17.1",
     "express-validator": "^6.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.1",
-    "nodemon": "^2.0.2",
     "request": "^2.88.2",
     "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.2"
   }
 }
