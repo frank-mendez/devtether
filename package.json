@@ -1,0 +1,26 @@
+{
+  "name": "devtether",
+  "version": "1.0.0",
+  "description": "Social Network for Developers. Online interaction for future collaborations and finding new developer friends",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frank-mendez/devtether.git"
+  },
+  "keywords": [
+    "Social",
+    "Network",
+    "Developers",
+    "Online",
+    "interaction"
+  ],
+  "author": "Frank Mendez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/frank-mendez/devtether/issues"
+  },
+  "homepage": "https://github.com/frank-mendez/devtether#readme"
+}
