@@ -53,6 +53,8 @@ router.post(
 
       user.password = await bcrypt.hash(password, salt);
 
+      await user.save();
+
       //Return token
       const payload = {
         user: {
