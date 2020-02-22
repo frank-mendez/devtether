@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const request = require('request');
+
+const auth = require('../../middleware/auth');
 
 // @route GET api/network
 // @desc Test Auth Route
