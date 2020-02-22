@@ -4,7 +4,6 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
 const Post = require('../../models/Post');
-const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 
 // @route  POST api/posts
@@ -136,6 +135,65 @@ router.delete('/:id', auth, async (req, res) => {
 
     await post.remove();
     res.json({ msg: 'Post removed' });
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route  PUT api/posts/like/:id
+// @desc   Like a post
+// @access Private
+router.put('/like/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    //Check if the post has already been liked by the user
+    if (
+      post.likes.filter(like => like.user.toString() === req.user.id).length > 0
+    ) {
+      return res.status(404).json({ msg: 'Post already liked' });
+    }
+    post.likes.unshift({ user: req.user.id });
+    //Save to the database
+    await post.save();
+    res.json(post.likes);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route  PUT api/posts/unlike/:id
+// @desc   Like a post
+// @access Private
+router.put('/unlike/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    //Check if the post has already been liked by the user
+    if (
+      post.likes.filter(like => like.user.toString() === req.user.id).length ===
+      0
+    ) {
+      return res.status(404).json({ msg: 'Post has not yet been liked' });
+    }
+
+    // Get remove index
+    const removeIndex = post.likes
+      .map(like => like.user.toString())
+      .indexOf(req.user.id);
+
+    post.likes.splice(removeIndex, 1);
+
+    await post.save();
+    res.json(post.likes);
   } catch (err) {
     console.error(err.message);
     if (err.kind === 'ObjectId') {
