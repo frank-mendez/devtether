@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const PostSchema = new Schema({
-  //Connect to a user
-  user: {
+const CommentSchema = new Schema({
+  post: {
     type: Schema.Types.ObjectId,
-    ref: 'user'
+    ref: 'post'
   },
   edited: {
     type: Boolean,
@@ -18,21 +17,14 @@ const PostSchema = new Schema({
   name: {
     type: String
   },
-  avatar: {
-    type: String
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'user'
   },
-  likes: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'user'
-      }
-    }
-  ],
   date: {
     type: Date,
     default: Date.now
   }
 });
 
-module.exports = Post = mongoose.model('post', PostSchema);
+module.exports = Comment = mongoose.model('comment', CommentSchema);
