@@ -23,7 +23,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route POST api/network/addfriend/:friend_id
-// @desc Test Auth Route
+// @desc Add Friend to Network
 // @access Private
 router.post('/addfriend/:friend_id', auth, async (req, res) => {
   try {
@@ -64,5 +64,63 @@ router.post('/addfriend/:friend_id', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @route POST api/network/acceptfriend/:friendrequest_id/:friend_id
+// @desc Accept Friend to Network
+// @access Private
+router.post(
+  '/acceptfriend/:friendrequest_id/:friend_id',
+  auth,
+  async (req, res) => {
+    try {
+      const network = await Network.updateOne(
+        {
+          user: req.user.id,
+          'friendrequests._id': req.params.friendrequest_id
+        },
+        {
+          $set: { 'friendrequests.$.status': 'accepted' }
+        }
+      );
+
+      if (!network) return res.status(400).json({ msg: 'Network not found' });
+
+      const updateFriendRequest = await Network.updateOne(
+        { user: req.params.friend_id, 'friends.user': req.user.id },
+        { $set: { 'friends.$.status': 'accepted' } }
+      );
+
+      if (!updateFriendRequest)
+        return res.status(400).json({ msg: 'Network not found' });
+
+      const friendName = await User.findById(req.params.friend_id).select(
+        '-password'
+      );
+
+      const friend = {
+        user: req.params.friend_id,
+        name: friendName.name,
+        status: 'accepted'
+      };
+
+      const networkConfirmed = await Network.updateOne(
+        {
+          user: req.user.id
+        },
+        {
+          $push: { friends: friend }
+        }
+      );
+
+      if (!networkConfirmed)
+        return res.status(400).json({ msg: 'Network not found' });
+
+      return res.json(networkConfirmed);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
 module.exports = router;
