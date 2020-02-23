@@ -73,13 +73,23 @@ router.post(
   auth,
   async (req, res) => {
     try {
+      const friendName = await User.findById(req.params.friend_id).select(
+        '-password'
+      );
+
+      const friend = {
+        user: req.params.friend_id,
+        name: friendName.name,
+        status: 'accepted'
+      };
       const network = await Network.updateOne(
         {
           user: req.user.id,
           'friendrequests._id': req.params.friendrequest_id
         },
         {
-          $set: { 'friendrequests.$.status': 'accepted' }
+          $set: { 'friendrequests.$.status': 'accepted' },
+          $push: { friends: friend }
         }
       );
 
@@ -93,29 +103,43 @@ router.post(
       if (!updateFriendRequest)
         return res.status(400).json({ msg: 'Network not found' });
 
-      const friendName = await User.findById(req.params.friend_id).select(
-        '-password'
-      );
+      return res.json(network);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
 
-      const friend = {
-        user: req.params.friend_id,
-        name: friendName.name,
-        status: 'accepted'
-      };
-
-      const networkConfirmed = await Network.updateOne(
+// @route POST api/network/rejectfriend/:friendrequest_id/:friend_id
+// @desc Reject Friend to Network
+// @access Private
+router.post(
+  '/rejectfriend/:friendrequest_id/:friend_id',
+  auth,
+  async (req, res) => {
+    try {
+      const network = await Network.updateOne(
         {
-          user: req.user.id
+          user: req.user.id,
+          'friendrequests._id': req.params.friendrequest_id
         },
         {
-          $push: { friends: friend }
+          $set: { 'friendrequests.$.status': 'rejected' }
         }
       );
 
-      if (!networkConfirmed)
+      if (!network) return res.status(400).json({ msg: 'Network not found' });
+
+      const updateFriendRequest = await Network.updateOne(
+        { user: req.params.friend_id, 'friends.user': req.user.id },
+        { $set: { 'friends.$.status': 'rejected' } }
+      );
+
+      if (!updateFriendRequest)
         return res.status(400).json({ msg: 'Network not found' });
 
-      return res.json(networkConfirmed);
+      return res.json(network);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
