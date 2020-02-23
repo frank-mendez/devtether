@@ -6,11 +6,21 @@ const NetworkSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'user'
   },
+  name: {
+    type: String
+  },
   friends: [
     {
       user: {
         type: Schema.Types.ObjectId,
         ref: 'user'
+      },
+      name: {
+        type: String
+      },
+      status: {
+        type: String,
+        default: 'pending'
       },
       date: {
         type: Date,
@@ -23,6 +33,9 @@ const NetworkSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: 'user'
+      },
+      name: {
+        type: String
       },
       status: {
         type: String,
@@ -39,6 +52,9 @@ const NetworkSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: 'user'
+      },
+      name: {
+        type: String
       }
     }
   ],
@@ -47,6 +63,9 @@ const NetworkSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         ref: 'user'
+      },
+      name: {
+        type: String
       }
     }
   ]

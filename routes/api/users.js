@@ -6,11 +6,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 const User = require('../../models/User');
-
-// @route GET api/users
-// @desc Test Auth Route
-// @access Public
-router.get('/', (req, res) => res.send('User Route'));
+const Network = require('../../models/Network');
 
 // @route POST api/users
 // @desc Add user
@@ -71,6 +67,12 @@ router.post(
           res.json({ token });
         }
       );
+      // Add Network to user
+      const addUserNetwork = new Network({
+        user: user.id,
+        name: name
+      });
+      await addUserNetwork.save();
     } catch (err) {
       console.log(err.message);
       res.status(500).send('Server Error');
