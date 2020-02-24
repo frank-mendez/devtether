@@ -147,4 +147,44 @@ router.post(
   }
 );
 
+// @route POST api/network/follow/:user_id
+// @desc Follow a user
+// @access Private
+router.post('/follow/:user_id', auth, async (req, res) => {
+  try {
+    const follower = {
+      user: req.params.user_id
+    };
+
+    const following = {
+      user: req.user.id
+    };
+
+    const network = await Network.updateOne(
+      {
+        user: req.user.id
+      },
+      {
+        $push: { following: follower }
+      }
+    );
+    if (!network) return res.status(400).json({ msg: 'Network not found' });
+
+    const followerNetwork = await Network.updateOne(
+      {
+        user: req.params.user_id
+      },
+      {
+        $push: { followers: following }
+      }
+    );
+    if (!followerNetwork)
+      return res.status(400).json({ msg: 'Network not found' });
+    return res.json(network);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
