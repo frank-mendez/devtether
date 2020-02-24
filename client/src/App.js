@@ -1,20 +1,18 @@
 import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Sidebar from './components/layouts/Sidebar';
-import Navbar from './components/layouts/Navbar';
-import Main from './components/layouts/Main';
+import Container from './components/layouts/Container';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 import './App.css';
 
 const App = () => (
   <Router>
     <Fragment>
-      <div id='wrapper'>
-        <Sidebar />
-        <div id='content-wrapper' className='d-flex flex-column'>
-          <Navbar />
-          <Main />
-        </div>
-      </div>
+      <Switch>
+        <Route exact path='/' component={Container} />
+        <Route exact path='/login' component={Login} />
+        <Route exact path='/register' component={Register} />
+      </Switch>
     </Fragment>
   </Router>
 );
