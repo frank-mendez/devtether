@@ -24,7 +24,7 @@ const App = () => {
     <Router>
       <Fragment>
         <Switch>
-          <Route exact path='/' component={Container} />
+          <Route exact path='/dashboard' component={Container} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/register' component={Register} />
         </Switch>
