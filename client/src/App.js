@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Landing from './components/layouts/Landing'
+import Landing from './components/layouts/Landing';
 import Container from './components/layouts/Container';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import PrivateRoute from './components/routing/PrivateRoute';
 import './App.css';
 
 //Redux
@@ -22,18 +23,18 @@ const App = () => {
   }, []);
   return (
     <Provider store={store}>
-    <Router>
-      <Fragment>
-        <Switch>
-          <Route exact path='/' component={Landing} />
-          <Route exact path='/dashboard' component={Container} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/register' component={Register} />
-        </Switch>
-      </Fragment>
-    </Router>
-  </Provider>
-  )
-}
+      <Router>
+        <Fragment>
+          <Switch>
+            <Route exact path='/' component={Landing} />
+            <PrivateRoute exact path='/dashboard' component={Container} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/register' component={Register} />
+          </Switch>
+        </Fragment>
+      </Router>
+    </Provider>
+  );
+};
 
 export default App;

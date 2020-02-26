@@ -42,8 +42,7 @@ export default function(state = initialState, action) {
         ...state,
         token: null,
         isAuthenticated: false,
-        loading: false,
-        error: payload
+        loading: false
       };
     case LOGOUT:
       localStorage.removeItem('token');
