@@ -1,18 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getCurrentProfile } from '../../actions/profile';
 
-const Main = () => {
+const Main = ({ getCurrentProfile, auth, profile }) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, [getCurrentProfile]);
+
   return (
     <div className='container-fluid'>
       <div className='d-sm-flex align-items-center justify-content-between mb-4'>
         <h1 className='h3 mb-0 text-gray-800'>Dashboard</h1>
-        <Link
-          to='#'
-          className='d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm'
-        >
-          <i className='fas fa-download fa-sm text-white-50'></i> Generate
-          Report
-        </Link>
       </div>
       <div className='row'>
         <div className='col-xl-3 col-md-6 mb-4'>
@@ -114,4 +113,15 @@ const Main = () => {
   );
 };
 
-export default Main;
+Main.propTypes = {
+  getCurrentProfile: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  profile: state.profile
+});
+
+export default connect(mapStateToProps, { getCurrentProfile })(Main);

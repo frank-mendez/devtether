@@ -245,7 +245,7 @@ const Navbar = ({ auth: { user, loading }, logout }) => {
                 <img
                   alt=''
                   className='img-profile rounded-circle'
-                  src='https://res.cloudinary.com/https-frank-mendez-github-io/image/upload/v1542106495/Frank_profile.png'
+                  src='https://res.cloudinary.com/https-frank-mendez-github-io/image/upload/v1582735574/devtether/img/User_Circle.png'
                 />
               </Link>
               <div
