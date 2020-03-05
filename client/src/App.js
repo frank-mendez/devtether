@@ -4,6 +4,8 @@ import Landing from './components/layouts/Landing';
 import Container from './components/layouts/Container';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import ContainerProfile from './components/profile/ContainerProfile';
+import CreateProfile from './components/profile/CreateProfile';
 import PrivateRoute from './components/routing/PrivateRoute';
 import './App.css';
 
@@ -28,6 +30,12 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={Landing} />
             <PrivateRoute exact path='/dashboard' component={Container} />
+            <PrivateRoute
+              exact
+              path='/create-profile'
+              component={CreateProfile}
+            />
+            <PrivateRoute exact path='/profile' component={ContainerProfile} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
           </Switch>

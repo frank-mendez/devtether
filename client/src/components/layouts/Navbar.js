@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import Spinner from './Spinner';
 
-const Navbar = ({ auth: { user, loading }, logout }) => {
+const Navbar = ({ auth: { user, loading }, logout, profile: { profile } }) => {
   return (
     <Fragment>
       <nav className='navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow'>
@@ -242,17 +242,31 @@ const Navbar = ({ auth: { user, loading }, logout }) => {
                 <span className='mr-2 d-none d-lg-inline text-gray-600 small'>
                   {user.name}
                 </span>
-                <img
-                  alt=''
-                  className='img-profile rounded-circle'
-                  src='https://res.cloudinary.com/https-frank-mendez-github-io/image/upload/v1582735574/devtether/img/User_Circle.png'
-                />
+                {profile === null && loading ? (
+                  <Spinner />
+                ) : (
+                  <Fragment>
+                    {profile === null ? (
+                      <img
+                        alt=''
+                        className='img-profile rounded-circle'
+                        src='https://res.cloudinary.com/https-frank-mendez-github-io/image/upload/v1582735574/devtether/img/User_Circle.png'
+                      />
+                    ) : (
+                      <img
+                        alt=''
+                        className='img-profile rounded-circle'
+                        src={profile.photo}
+                      />
+                    )}
+                  </Fragment>
+                )}
               </Link>
               <div
                 className='dropdown-menu dropdown-menu-right shadow animated--grow-in'
                 aria-labelledby='userDropdown'
               >
-                <Link className='dropdown-item' to='#'>
+                <Link className='dropdown-item' to='/profile'>
                   <i className='fas fa-user fa-sm fa-fw mr-2 text-gray-400'></i>
                   Profile
                 </Link>
@@ -286,11 +300,13 @@ const Navbar = ({ auth: { user, loading }, logout }) => {
 
 Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);
