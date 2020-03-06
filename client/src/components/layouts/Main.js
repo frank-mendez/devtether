@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profile';
 
-const Main = ({ getCurrentProfile, auth, profile }) => {
+const Main = ({ getCurrentProfile }) => {
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
@@ -120,7 +120,6 @@ Main.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
   profile: state.profile
 });
 

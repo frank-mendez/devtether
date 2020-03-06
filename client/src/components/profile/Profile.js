@@ -1,15 +1,10 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getCurrentProfile } from '../../actions/profile';
 import Spinner from '../layouts/Spinner';
 
-const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
-  useEffect(() => {
-    getCurrentProfile();
-  }, [getCurrentProfile]);
-
+const Profile = ({ profile: { profile, loading } }) => {
   return (
     <Fragment>
       <div className='container-fluid'>
@@ -29,13 +24,54 @@ const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
               </Fragment>
             ) : (
               <Fragment>
-                <div className='row'>
-                  <div className='col-sm-12 col-md-4 offset-md-4 col-lg-4 offset-lg-4'>
-                    <img
-                      alt='Profile'
-                      className='img-fluid rounder-circle'
-                      src={profile.photo}
-                    />
+                <div className='col-xl-12 col-md-12 mb-12'>
+                  <div className='card shadow mb-4'>
+                    <div className='card-header py-3'>
+                      <h6 className='m-0 font-weight-bold text-primary'>
+                        {profile.user.name}
+                      </h6>
+                    </div>
+                    <div className='card-body'>
+                      <div className='text-center'>
+                        <img
+                          className='img-fluid px-3 px-sm-4 mt-3 mb-4'
+                          src={profile.photo}
+                          style={{ width: '300px' }}
+                          alt='Profile'
+                        />
+                      </div>
+                      <div className='text-center'>
+                        <p>
+                          <i class='fas fa-code-branch'></i> {profile.title}
+                        </p>
+                      </div>
+                      <div className='text-center'>
+                        <p>
+                          <i class='fas fa-briefcase'></i> {profile.company}
+                        </p>
+                      </div>
+                      <div className='text-center'>
+                        <p>
+                          <i class='fas fa-globe'></i>{' '}
+                          <Link to={profile.website}>{profile.website}</Link>
+                        </p>
+                      </div>
+                      <div className='text-center'>
+                        <p>
+                          <i class='fas fa-heart'></i> {profile.status}
+                        </p>
+                      </div>
+                      <div className='text-center'>
+                        <p>
+                          <i class='fas fa-code'></i> {profile.skills}
+                        </p>
+                      </div>
+                      <div className='text-center'>
+                        <p>
+                          <i class='fas fa-address-card'></i> {profile.bio}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Fragment>
@@ -48,8 +84,6 @@ const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
 };
 
 Profile.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
 };
 
@@ -57,4 +91,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Profile);
+export default connect(mapStateToProps, null)(Profile);

@@ -9,7 +9,7 @@ const Sidebar = () => {
     >
       <Link
         className='sidebar-brand d-flex align-items-center justify-content-center'
-        to='index.html'
+        to='/dashboard'
       >
         <div className='sidebar-brand-icon rotate-n-15'>
           <i className='fab fa-connectdevelop'></i>
@@ -18,7 +18,7 @@ const Sidebar = () => {
       </Link>
       <hr className='sidebar-divider my-0' />
       <li className='nav-item active'>
-        <Link className='nav-link' to='index.html'>
+        <Link className='nav-link' to='/dashboard'>
           <i className='fas fa-fw fa-tachometer-alt'></i>
           <span>Dashboard</span>
         </Link>
@@ -45,10 +45,10 @@ const Sidebar = () => {
         >
           <div className='bg-white py-2 collapse-inner rounded'>
             <h6 className='collapse-header'>User Profile:</h6>
-            <Link className='collapse-item' to='buttons.html'>
+            <Link className='collapse-item' to='/edit-profile'>
               Edit Profile
             </Link>
-            <Link className='collapse-item' to='cards.html'>
+            <Link className='collapse-item' to='/profile'>
               View Profile
             </Link>
           </div>
@@ -74,13 +74,13 @@ const Sidebar = () => {
         >
           <div className='bg-white py-2 collapse-inner rounded'>
             <h6 className='collapse-header'>Dev Profiles:</h6>
-            <Link className='collapse-item' to='utilities-color.html'>
+            <Link className='collapse-item' to='/following'>
               Following
             </Link>
-            <Link className='collapse-item' to='utilities-border.html'>
+            <Link className='collapse-item' to='/followers'>
               Followers
             </Link>
-            <Link className='collapse-item' to='utilities-border.html'>
+            <Link className='collapse-item' to='/developers'>
               Discover Dev Profiles
             </Link>
           </div>
@@ -89,7 +89,7 @@ const Sidebar = () => {
       <hr className='sidebar-divider' />
       <div className='sidebar-heading'>Network</div>
       <li className='nav-item active'>
-        <Link className='nav-link' to='index.html'>
+        <Link className='nav-link' to='/community'>
           <i className='fas fa-fw fa-tachometer-alt'></i>
           <span>Dev Community</span>
         </Link>
