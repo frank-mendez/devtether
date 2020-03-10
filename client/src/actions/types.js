@@ -11,3 +11,4 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR ';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS ';
 export const UPLOAD_FAIL = 'UPLOAD_FAIL';
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';

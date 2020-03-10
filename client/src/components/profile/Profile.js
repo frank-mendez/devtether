@@ -26,10 +26,18 @@ const Profile = ({ profile: { profile, loading } }) => {
               <Fragment>
                 <div className='col-xl-12 col-md-12 mb-12'>
                   <div className='card shadow mb-4'>
-                    <div className='card-header py-3'>
+                    <div className='card-header py-3 d-sm-flex align-items-center justify-content-between mb-4'>
                       <h6 className='m-0 font-weight-bold text-primary'>
                         {profile.user.name}
                       </h6>
+                      <Fragment>
+                        <Link
+                          className='d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm'
+                          to='/edit-profile'
+                        >
+                          Edit Profile
+                        </Link>
+                      </Fragment>
                     </div>
                     <div className='card-body'>
                       <div className='text-center'>
