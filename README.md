@@ -8,4 +8,4 @@ Backend - MongoDB, ExpressJS, ReactJS, Redux, NodeJS
 
 FrontEnd - CSS3, SASS, Bootstrap, Fontawesome
 
-Theme - SB Admin 2 https://startbootstrap.com/themes/sb-admin-2/
+Theme - Elastic UI (https://elastic.github.io/eui/#/)
