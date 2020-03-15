@@ -4,8 +4,8 @@ Social Network for Developers. Online Interaction with other developers for futu
 
 ## Tools use
 
-Backend - MongoDB, ExpressJS, ReactJS, Redux, NodeJS
+Backend - MongoDB, ExpressJS, NodeJS
 
-FrontEnd - CSS3, SASS, Bootstrap, Fontawesome
+FrontEnd - ReactJS, Redux, CSS3, ES6
 
 Theme - Elastic UI (https://elastic.github.io/eui/#/)
