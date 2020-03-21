@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import {
   EuiButton,
   EuiFieldText,
-  EuiForm,
-  EuiFormRow,
-  EuiSpacer,
   EuiPage,
   EuiPageBody,
   EuiPageContent,
@@ -15,12 +12,16 @@ import {
   EuiPageContentHeader,
   EuiPageContentHeaderSection,
   EuiTitle,
-  EuiFieldPassword
+  EuiFieldPassword,
+  EuiFlexGroup,
+  EuiFlexItem,
+  EuiCallOut,
+  EuiLink
 } from '@elastic/eui';
 
 import { register } from '../../../actions/auth/Register';
 
-const Register = ({ isAuthenticated, register }) => {
+const Register = ({ isAuthenticated, register, error }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showErrors, setShowErrors] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -42,11 +43,41 @@ const Register = ({ isAuthenticated, register }) => {
 
   const onSubmit = e => {
     setIsLoading(true);
-    if (password !== password2) {
+    console.log('email validation: ', emailValidation(email));
+    if (name.length === 0) {
       setShowErrors(true);
-      setErrors(errors.push('Password does not match'));
+      setErrors(['Name field is required']);
+      setIsLoading(false);
+    } else if (email.length === 0) {
+      setShowErrors(true);
+      setErrors(['Email field is required']);
+      setIsLoading(false);
+    } else if (!emailValidation(email)) {
+      setShowErrors(true);
+      setErrors(['Email is not valid']);
+      setIsLoading(false);
+    } else if (password.length === 0 && password.length < 6) {
+      setShowErrors(true);
+      setErrors(['Password field is required and minimum of 6 characters']);
+      setIsLoading(false);
+    } else if (password !== password2) {
+      setShowErrors(true);
+      setErrors(['Password does not match']);
+      setIsLoading(false);
     } else {
       register({ name, email, password });
+      if (error !== null) {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const emailValidation = email => {
+    let validated = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+    if (validated != null) {
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -59,6 +90,7 @@ const Register = ({ isAuthenticated, register }) => {
       <EuiPage style={{ height: '100vh' }}>
         <EuiPageBody>
           <EuiPageContent
+            style={{ width: '400px', textAlign: 'center' }}
             paddingSize='l'
             panelPaddingSize='l'
             className='auth-page-container'
@@ -73,12 +105,26 @@ const Register = ({ isAuthenticated, register }) => {
               </EuiPageContentHeaderSection>
             </EuiPageContentHeader>
             <EuiPageContentBody>
-              <EuiForm
-                style={{ width: '300px' }}
-                isInvalid={showErrors}
-                error={errors}
-              >
-                <EuiFormRow isInvalid={showErrors}>
+              <EuiFlexGroup>
+                <EuiFlexItem>
+                  {showErrors && (
+                    <EuiCallOut
+                      title={errors}
+                      color='danger'
+                      iconType='alert'
+                    ></EuiCallOut>
+                  )}
+                  {error && (
+                    <EuiCallOut
+                      title={error[0].msg}
+                      color='danger'
+                      iconType='alert'
+                    ></EuiCallOut>
+                  )}
+                </EuiFlexItem>
+              </EuiFlexGroup>
+              <EuiFlexGroup>
+                <EuiFlexItem>
                   <EuiFieldText
                     value={name}
                     placeholder='Name'
@@ -86,9 +132,10 @@ const Register = ({ isAuthenticated, register }) => {
                     name='name'
                     onChange={e => onChange(e)}
                   />
-                </EuiFormRow>
-                <EuiSpacer />
-                <EuiFormRow isInvalid={showErrors}>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+              <EuiFlexGroup>
+                <EuiFlexItem>
                   <EuiFieldText
                     value={email}
                     placeholder='Email'
@@ -96,9 +143,10 @@ const Register = ({ isAuthenticated, register }) => {
                     name='email'
                     onChange={e => onChange(e)}
                   />
-                </EuiFormRow>
-                <EuiSpacer />
-                <EuiFormRow isInvalid={showErrors}>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+              <EuiFlexGroup>
+                <EuiFlexItem>
                   <EuiFieldPassword
                     value={password}
                     name='password'
@@ -106,9 +154,10 @@ const Register = ({ isAuthenticated, register }) => {
                     aria-label='Use aria labels when no actual label is in use'
                     onChange={e => onChange(e)}
                   />
-                </EuiFormRow>
-                <EuiSpacer />
-                <EuiFormRow isInvalid={showErrors}>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+              <EuiFlexGroup>
+                <EuiFlexItem>
                   <EuiFieldPassword
                     value={password2}
                     name='password2'
@@ -116,20 +165,27 @@ const Register = ({ isAuthenticated, register }) => {
                     aria-label='Use aria labels when no actual label is in use'
                     onChange={e => onChange(e)}
                   />
-                </EuiFormRow>
-                <EuiSpacer />
-
-                <EuiButton
-                  size='s'
-                  iconType='arrowRight'
-                  iconSide='right'
-                  type='submit'
-                  isLoading={isLoading}
-                  onClick={e => onSubmit(e)}
-                >
-                  Register
-                </EuiButton>
-              </EuiForm>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+              <EuiFlexGroup>
+                <EuiFlexItem>
+                  <EuiButton
+                    size='s'
+                    iconType='arrowRight'
+                    iconSide='right'
+                    type='submit'
+                    isLoading={isLoading}
+                    onClick={e => onSubmit(e)}
+                  >
+                    Register
+                  </EuiButton>
+                </EuiFlexItem>
+              </EuiFlexGroup>
+              <EuiFlexGroup alignItems='center'>
+                <EuiFlexItem component='span'>
+                  <EuiLink href='/login'>Already have an account?</EuiLink>
+                </EuiFlexItem>
+              </EuiFlexGroup>
             </EuiPageContentBody>
           </EuiPageContent>
         </EuiPageBody>
@@ -140,11 +196,13 @@ const Register = ({ isAuthenticated, register }) => {
 
 Register.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  register: PropTypes.func.isRequired
+  register: PropTypes.func.isRequired,
+  error: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.auth.error
 });
 
 export default connect(mapStateToProps, { register })(Register);
