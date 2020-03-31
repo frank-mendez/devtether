@@ -1,10 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import '@elastic/eui/dist/eui_theme_light.css';
 import './App.css';
-import Login from './components/pages/auth/Login';
-import Register from './components/pages/auth/Register';
-import Dashboard from './components/pages/Dashboard';
+import Routes from './components/routing/Routes';
 
 //Redux
 import { Provider } from 'react-redux';
@@ -12,20 +10,25 @@ import store from './store';
 import { loadUser } from './actions/auth/LoadUser';
 import setAuthToken from './utils/setAuthToken';
 
-function App() {
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
+const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
   return (
     <Provider store={store}>
       <Fragment>
         <Router>
           <Switch>
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/register' component={Register} />
-            <Route exact path='/' component={Dashboard} />
+            <Route component={Routes} />
           </Switch>
         </Router>
       </Fragment>
     </Provider>
   );
-}
+};
 
 export default App;
